@@ -240,7 +240,7 @@ function mapRow(row, tab) {
     num:       row["Numero #"] || "",
     nombre:    nombre,
     correo:    row["Correo"] || "",
-    tel:       (row["Telefono"] || "").replace(/\s/g,""),
+    tel:       (row["Teléfono"] || row["Telefono"] || "").replace(/\s/g,""),
     ciudad:    row["Ciudad de residencia"] || "",
     rutUrl:    rutUrl,
     cuentaUrl: cuentaUrl,
