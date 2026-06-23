@@ -58,7 +58,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .persona-row{border-bottom:1px solid #f1f5f9;}
 .persona-row:last-child{border-bottom:none;}
 
-/* HEADER DE CADA PERSONA */
+/* HEADER */
 .persona-header{display:flex;align-items:center;gap:14px;padding:14px 18px;
   cursor:pointer;transition:background .15s;user-select:none;}
 .persona-header:hover{background:#fafcff;}
@@ -70,40 +70,52 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   font-size:15px;font-weight:700;color:#fff;}
 
 .persona-info{flex:1;min-width:0;}
-.persona-nombre{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
-
-/* META — correo y teléfono siempre visibles */
-.persona-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.meta-chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--muted);}
-.meta-chip a{color:var(--muted);text-decoration:none;}
-.meta-chip a:hover{color:var(--primary);}
+.persona-nombre{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .persona-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
-  background:#f1f5f9;color:var(--muted);padding:2px 7px;border-radius:4px;margin-right:4px;}
+  background:#f1f5f9;color:var(--muted);padding:2px 7px;border-radius:4px;}
+.persona-sub{font-size:12px;color:var(--muted);}
 
-.chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;margin-left:4px;}
+.chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;}
 .persona-header.open .chevron{transform:rotate(180deg);}
 
-/* BOTÓN WP inline en el header */
-.btn-wp-sm{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;
-  font-size:11px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
-  background:var(--wp-green);color:#fff;text-decoration:none;transition:background .18s;vertical-align:middle;}
-.btn-wp-sm:hover{background:var(--wp-dark);}
-
-/* DETALLE DESPLEGABLE */
-.persona-detail{display:none;padding:14px 18px 16px 74px;background:#fafcff;border-top:1px solid var(--line);}
+/* DETALLE */
+.persona-detail{display:none;border-top:1px solid var(--line);background:#fafcff;}
 .persona-detail.open{display:block;}
 
-.detail-section{margin-bottom:12px;}
-.detail-label{font-size:10px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;}
+/* GRID 2 columnas dentro del detalle */
+.detail-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;}
 
-/* DOCS */
+.detail-col{padding:16px 20px;}
+.detail-col:first-child{border-right:1px solid var(--line);}
+
+.detail-col-title{font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;
+  display:flex;align-items:center;gap:5px;}
+
+/* Contacto */
+.contact-item{display:flex;flex-direction:column;gap:2px;margin-bottom:12px;}
+.contact-item:last-child{margin-bottom:0;}
+.contact-label{font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.4px;}
+.contact-value{font-size:13px;font-weight:500;color:var(--text);}
+.contact-value a{color:var(--primary);text-decoration:none;}
+.contact-value a:hover{text-decoration:underline;}
+
+/* Botón WA */
+.btn-wp{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:999px;
+  font-size:12px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
+  background:var(--wp-green);color:#fff;text-decoration:none;transition:background .18s;margin-top:6px;}
+.btn-wp:hover{background:var(--wp-dark);}
+
+/* Documentos */
 .doc-bloque{margin-bottom:10px;}
-.doc-titulo{font-size:11px;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.3px;margin-bottom:5px;}
-.actions-row{display:flex;gap:7px;flex-wrap:wrap;}
+.doc-bloque:last-child{margin-bottom:0;}
+.doc-titulo{font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;}
+.actions-row{display:flex;gap:6px;flex-wrap:wrap;}
 
-.btn-doc{display:inline-flex;align-items:center;gap:4px;padding:6px 13px;
+.btn-doc{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;
   border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:inherit;
   border:none;cursor:pointer;text-decoration:none;transition:all .18s;white-space:nowrap;}
 .btn-doc.ver{background:var(--soft-orange);color:#9a3412;border:1px solid #fdba74;}
@@ -113,9 +125,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .btn-doc.combinado{background:var(--soft-purple);color:#5b21b6;border:1px solid #c4b5fd;}
 .btn-doc.combinado:hover{background:#ede9fe;}
 
-/* CIUDAD en detalle */
-.ciudad-tag{display:inline-flex;align-items:center;gap:5px;font-size:13px;
-  font-weight:500;color:var(--text);}
+.no-doc{font-size:12px;color:var(--muted);font-style:italic;}
 
 /* STATES */
 .tab-panel{display:none;}
@@ -134,7 +144,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   .tabs-wrap{padding:0 12px;}
   .app{padding:16px 12px 40px;}
   .topbar-badge{display:none;}
-  .persona-detail{padding-left:18px;}
+  .detail-inner{grid-template-columns:1fr;}
+  .detail-col:first-child{border-right:none;border-bottom:1px solid var(--line);}
 }
 </style>
 </head>
@@ -226,11 +237,11 @@ function mapRow(row, tab) {
   var cuentaUrl = row["Cuenta Bancaria"] || "";
   var combinado = !!(rutUrl && cuentaUrl && rutUrl === cuentaUrl);
   return {
-    num:    row["Numero #"] || "",
-    nombre: nombre,
-    correo: row["Correo"] || "",
-    tel:    (row["Telefono"] || "").replace(/\s/g,""),
-    ciudad: row["Ciudad de residencia"] || "",
+    num:       row["Numero #"] || "",
+    nombre:    nombre,
+    correo:    row["Correo"] || "",
+    tel:       (row["Telefono"] || "").replace(/\s/g,""),
+    ciudad:    row["Ciudad de residencia"] || "",
     rutUrl:    rutUrl,
     cuentaUrl: cuentaUrl,
     combinado: combinado
@@ -257,18 +268,16 @@ function compartir(url, e) {
 
 function renderDocs(p) {
   if (!p.rutUrl && !p.cuentaUrl) {
-    return '<span style="font-size:12px;color:var(--muted);font-style:italic;">Sin documentos</span>';
+    return '<span class="no-doc">Sin documentos cargados</span>';
   }
-
   if (p.combinado) {
     return '<div class="doc-bloque">' +
-      '<div class="doc-titulo">📁 RUT + Cuenta Bancaria (documento único)</div>' +
+      '<div class="doc-titulo">📁 RUT + Cuenta (doc. único)</div>' +
       '<div class="actions-row">' +
-        '<a class="btn-doc combinado" href="' + p.rutUrl + '" target="_blank">👁️ Ver documento</a>' +
+        '<a class="btn-doc combinado" href="' + p.rutUrl + '" target="_blank">👁️ Ver</a>' +
         '<button class="btn-doc share" onclick="compartir(\'' + p.rutUrl + '\',event)">🔗 Compartir</button>' +
       '</div></div>';
   }
-
   var html = "";
   if (p.rutUrl) {
     html += '<div class="doc-bloque">' +
@@ -279,7 +288,7 @@ function renderDocs(p) {
       '</div></div>';
   }
   if (p.cuentaUrl) {
-    html += '<div class="doc-bloque" style="margin-top:8px;">' +
+    html += '<div class="doc-bloque" style="margin-top:10px;">' +
       '<div class="doc-titulo">🏦 Cuenta Bancaria</div>' +
       '<div class="actions-row">' +
         '<a class="btn-doc ver" href="' + p.cuentaUrl + '" target="_blank">👁️ Ver</a>' +
@@ -296,28 +305,49 @@ function buildRow(p, idx, tab) {
   var id = tab + "-" + idx;
 
   return '<div class="persona-row" data-search="' + searchStr + '" id="row-' + id + '">' +
+
+    /* ── HEADER (siempre visible) ── */
     '<div class="persona-header" onclick="toggleRow(\'' + id + '\')">' +
       '<div class="avatar">' + initials(p.nombre) + '</div>' +
       '<div class="persona-info">' +
         '<div class="persona-nombre">' +
-          (p.num ? '<span class="persona-num">#'+p.num+'</span>' : '') +
+          (p.num ? '<span class="persona-num">#'+p.num+'</span> ' : '') +
           p.nombre +
         '</div>' +
-        '<div class="persona-meta">' +
-          (p.correo ? '<span class="meta-chip">✉️ <a href="mailto:'+p.correo+'" onclick="event.stopPropagation()">'+p.correo+'</a></span>' : '') +
-          (p.tel    ? '<span class="meta-chip">📞 '+p.tel+'</span>' : '') +
-          (p.ciudad ? '<span class="meta-chip">📍 '+p.ciudad+'</span>' : '') +
-          (wpUrl    ? '<a class="btn-wp-sm" href="'+wpUrl+'" target="_blank" onclick="event.stopPropagation()">💬 WA</a>' : '') +
-        '</div>' +
+        (p.ciudad ? '<div class="persona-sub">📍 '+p.ciudad+'</div>' : '') +
       '</div>' +
       '<span class="chevron">▼</span>' +
     '</div>' +
+
+    /* ── DETALLE (al desplegar): 2 columnas ── */
     '<div class="persona-detail" id="detail-' + id + '">' +
-      '<div class="detail-section">' +
-        '<div class="detail-label">Documentos</div>' +
-        renderDocs(p) +
+      '<div class="detail-inner">' +
+
+        /* Columna izq: Contacto */
+        '<div class="detail-col">' +
+          '<div class="detail-col-title">📬 Contacto</div>' +
+          (p.correo ?
+            '<div class="contact-item">' +
+              '<div class="contact-label">Correo</div>' +
+              '<div class="contact-value"><a href="mailto:'+p.correo+'">'+p.correo+'</a></div>' +
+            '</div>' : '') +
+          (p.tel ?
+            '<div class="contact-item">' +
+              '<div class="contact-label">Teléfono</div>' +
+              '<div class="contact-value">'+p.tel+'</div>' +
+              (wpUrl ? '<a class="btn-wp" href="'+wpUrl+'" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>' : '') +
+            '</div>' : '') +
+        '</div>' +
+
+        /* Columna der: Documentos */
+        '<div class="detail-col">' +
+          '<div class="detail-col-title">📄 Documentos</div>' +
+          renderDocs(p) +
+        '</div>' +
+
       '</div>' +
     '</div>' +
+
   '</div>';
 }
 
@@ -325,10 +355,8 @@ function toggleRow(id) {
   var header = document.querySelector("#row-" + id + " .persona-header");
   var detail = document.getElementById("detail-" + id);
   var isOpen = header.classList.contains("open");
-  // cerrar todos
   document.querySelectorAll(".persona-header.open").forEach(function(h){ h.classList.remove("open"); });
   document.querySelectorAll(".persona-detail.open").forEach(function(d){ d.classList.remove("open"); });
-  // abrir si estaba cerrado
   if (!isOpen) {
     header.classList.add("open");
     detail.classList.add("open");
