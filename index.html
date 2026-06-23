@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directorio · Comisarios & OMM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0f4f8;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;
+  --primary:#004c99;--primary-light:#0063cc;--primary-dark:#003578;
+  --success:#059669;--warning:#d97706;--danger:#dc2626;
+  --wp-green:#25D366;--wp-dark:#128C7E;
+  --soft-blue:#eff6ff;--soft-green:#ecfdf5;--soft-orange:#fffbeb;
+  --shadow-sm:0 1px 3px rgba(15,23,42,0.08);--shadow:0 4px 16px rgba(15,23,42,0.10);
+  --radius:14px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.topbar{background:var(--primary);color:#fff;padding:0 28px;height:58px;display:flex;
+  align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(0,76,153,0.28);}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-sep{width:1px;height:24px;background:rgba(255,255,255,0.25);}
+.topbar-title{font-size:14px;font-weight:700;}
+.topbar-sub{font-size:12px;opacity:0.75;}
+.topbar-badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  padding:5px 13px;border-radius:999px;font-size:12px;font-weight:600;}
+
+.tabs-wrap{background:var(--card);border-bottom:1px solid var(--line);padding:0 28px;display:flex;gap:4px;}
+.tab-btn{padding:14px 20px;font-size:13px;font-weight:600;font-family:inherit;background:none;
+  border:none;border-bottom:3px solid transparent;color:var(--muted);cursor:pointer;transition:all .18s;
+  display:flex;align-items:center;gap:7px;}
+.tab-btn:hover{color:var(--primary);}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+.tab-count{background:var(--soft-blue);color:var(--primary);font-size:11px;font-weight:700;
+  padding:2px 7px;border-radius:999px;}
+.tab-btn.active .tab-count{background:var(--primary);color:#fff;}
+
+.app{max-width:1100px;margin:0 auto;padding:24px 20px 40px;}
+
+.search-wrap{position:relative;margin-bottom:20px;}
+.search-wrap input{width:100%;border:1px solid var(--line);border-radius:999px;
+  padding:11px 18px 11px 42px;font-size:13px;font-family:inherit;color:var(--text);
+  background:var(--card);outline:none;transition:border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);}
+.search-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,76,153,0.10);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:16px;pointer-events:none;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .2s,transform .2s;}
+.pcard:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
+.pcard-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+  padding:18px 18px 14px;display:flex;align-items:center;gap:14px;}
+.avatar{width:46px;height:46px;border-radius:999px;background:rgba(255,255,255,0.2);
+  border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;color:#fff;flex-shrink:0;}
+.pcard-name{font-size:14px;font-weight:700;color:#fff;line-height:1.3;}
+.pcard-num{font-size:11px;color:rgba(255,255,255,0.7);font-family:'DM Mono',monospace;margin-top:2px;}
+
+.pcard-body{padding:14px 18px;}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;}
+.info-row:last-child{border-bottom:none;}
+.info-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;
+  align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px;}
+.info-icon.mail{background:var(--soft-blue);color:var(--primary);}
+.info-icon.phone{background:var(--soft-green);color:var(--success);}
+.info-icon.doc{background:var(--soft-orange);color:var(--warning);}
+.info-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:0.4px;margin-bottom:2px;}
+.info-value{font-size:13px;font-weight:500;color:var(--text);}
+.info-content{flex:1;min-width:0;}
+
+.phone-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.btn-wp{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;
+  font-size:11px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
+  background:var(--wp-green);color:#fff;text-decoration:none;transition:background .18s;}
+.btn-wp:hover{background:var(--wp-dark);}
+
+.doc-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.btn-doc{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:var(--radius-sm);
+  font-size:11px;font-weight:600;font-family:inherit;border:none;cursor:pointer;
+  text-decoration:none;transition:all .18s;white-space:nowrap;}
+.btn-doc.download{background:var(--soft-orange);color:#9a3412;border:1px solid #fdba74;}
+.btn-doc.download:hover{background:#fde68a;}
+.btn-doc.share{background:var(--soft-blue);color:var(--primary);border:1px solid #bfdbfe;}
+.btn-doc.share:hover{background:#dbeafe;}
+.btn-doc.combined{background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd;}
+.btn-doc.combined:hover{background:#ede9fe;}
+.doc-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px;}
+
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* Loading */
+.loading{text-align:center;padding:60px 20px;color:var(--muted);}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--line);
+  border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;
+  margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+
+/* Error bar */
+.alert-bar{border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;font-weight:600;
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.alert-bar.error{background:var(--soft-red,#fef2f2);border:1px solid #fecaca;color:#991b1b;}
+
+@media(max-width:600px){
+  .topbar{padding:0 16px;}
+  .tabs-wrap{padding:0 12px;}
+  .app{padding:16px 12px 40px;}
+  .grid{grid-template-columns:1fr;}
+  .topbar-badge{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <img src="https://lh3.googleusercontent.com/d/1l4mdgdoIJxuPBRY8VDhhC-AJQW6vgdWr"
+         alt="Dimayor" style="height:32px;width:auto;" onerror="this.style.display='none';">
+    <div class="topbar-sep"></div>
+    <div>
+      <div class="topbar-title">Directorio</div>
+      <div class="topbar-sub">Comisarios & OMM · SGI Dimayor</div>
+    </div>
+  </div>
+  <span class="topbar-badge" id="totalBadge">Cargando...</span>
+</div>
+
+<div class="tabs-wrap">
+  <button class="tab-btn active" onclick="switchTab('comisarios')">
+    🧑‍⚖️ Comisarios
+    <span class="tab-count" id="count-comisarios">—</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('omm')">
+    🏟️ OMM
+    <span class="tab-count" id="count-omm">—</span>
+  </button>
+</div>
+
+<div class="app">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar por nombre, teléfono, correo..." oninput="filterCards()">
+  </div>
+
+  <div class="tab-panel active" id="panel-comisarios">
+    <div class="loading" id="loading-comisarios">
+      <div class="loading-spinner"></div>
+      Cargando comisarios...
+    </div>
+    <div class="grid" id="grid-comisarios"></div>
+    <div class="empty" id="empty-comisarios" style="display:none;">
+      <div class="empty-icon">🔎</div>No se encontraron resultados
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-omm">
+    <div class="loading" id="loading-omm">
+      <div class="loading-spinner"></div>
+      Cargando OMM...
+    </div>
+    <div class="grid" id="grid-omm"></div>
+    <div class="empty" id="empty-omm" style="display:none;">
+      <div class="empty-icon">🔎</div>No se encontraron resultados
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── URLs CSV del Google Sheet publicado ── */
+var CSV_URLS = {
+  comisarios: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO9XNeVu7M-py3vJJler7RURRYuDIrB0qK7ghG_YUX2vUxikwZyeH7OOehVXNVxBa3J2U80iaTCYXf/pub?gid=1212023684&single=true&output=csv",
+  omm:        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO9XNeVu7M-py3vJJler7RURRYuDIrB0qK7ghG_YUX2vUxikwZyeH7OOehVXNVxBa3J2U80iaTCYXf/pub?gid=1886661453&single=true&output=csv"
+};
+
+/*
+  COLUMNAS ESPERADAS EN EL SHEET (fila 1 = encabezados):
+  Numero # | Nombre Comisario | Correo | Telefono | RUT | Cuenta Bancaria
+
+  En RUT y Cuenta Bancaria pega el link de Google Drive del PDF.
+  Si van en un solo documento, pon el mismo link en ambas celdas
+  o combina las celdas (el CSV lo detecta automáticamente).
+*/
+
+var DATA = { comisarios: [], omm: [] };
+var currentTab = "comisarios";
+
+/* ── PARSEAR CSV ── */
+function parseCSV(text) {
+  var lines = text.trim().split("\n");
+  if (lines.length < 2) return [];
+  // limpiar BOM y saltos de carro
+  var headers = lines[0].replace(/^\uFEFF/, "").replace(/\r/g, "").split(",").map(function(h){ return h.trim(); });
+  var rows = [];
+  for (var i = 1; i < lines.length; i++) {
+    var cols = splitCSVLine(lines[i].replace(/\r/g, ""));
+    if (cols.every(function(c){ return !c.trim(); })) continue; // fila vacía
+    var obj = {};
+    headers.forEach(function(h, idx){ obj[h] = (cols[idx] || "").trim(); });
+    rows.push(obj);
+  }
+  return rows;
+}
+
+/* ── SPLIT CSV respetando comillas ── */
+function splitCSVLine(line) {
+  var result = [], cur = "", inQ = false;
+  for (var i = 0; i < line.length; i++) {
+    var ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = ""; }
+    else { cur += ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+/* ── MAPEAR FILA → OBJETO PERSONA ── */
+function mapRow(row) {
+  var rutUrl    = row["RUT"] || "";
+  var cuentaUrl = row["Cuenta Bancaria"] || "";
+  var combinado = rutUrl && cuentaUrl && rutUrl === cuentaUrl;
+
+  return {
+    num:    row["Numero #"] || "",
+    nombre: row["Nombre Comisario"] || "",
+    correo: row["Correo"] || "",
+    tel:    row["Telefono"] || "",
+    rut:    rutUrl    ? { url: rutUrl,    nombre: "RUT",             combinado: combinado } : null,
+    cuenta: cuentaUrl && !combinado ? { url: cuentaUrl, nombre: "Cuenta Bancaria" } : null
+  };
+}
+
+/* ── FETCH CSV ── */
+function fetchCSV(tab) {
+  fetch(CSV_URLS[tab])
+    .then(function(r){
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    })
+    .then(function(text){
+      var rows = parseCSV(text).map(mapRow).filter(function(p){ return p.nombre; });
+      DATA[tab] = rows;
+      document.getElementById("loading-" + tab).style.display = "none";
+      renderGrid(tab);
+      updateBadge();
+    })
+    .catch(function(err){
+      document.getElementById("loading-" + tab).innerHTML =
+        '<div class="alert-bar error">⚠️ No se pudo cargar los datos. Verifica que el Sheet esté publicado. (' + err.message + ')</div>';
+    });
+}
+
+/* ── INICIALES ── */
+function initials(nombre) {
+  var p = nombre.trim().split(" ").filter(function(x){ return x; });
+  if (p.length === 1) return p[0][0].toUpperCase();
+  return (p[0][0] + p[1][0]).toUpperCase();
+}
+
+/* ── DRIVE DOWNLOAD URL ── */
+function driveDownload(url) {
+  var m = url.match(/\/d\/([^\/\?]+)/);
+  if (m) return "https://drive.google.com/uc?export=download&id=" + m[1];
+  return url;
+}
+
+/* ── COMPARTIR ── */
+function compartir(url, nombre) {
+  if (navigator.share) {
+    navigator.share({ title: nombre, url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function(){
+      alert("✅ Enlace copiado:\n" + url);
+    });
+  }
+}
+
+/* ── RENDER DOC ── */
+function renderDoc(doc, etiqueta) {
+  if (!doc || !doc.url) return '<span style="font-size:12px;color:var(--muted);font-style:italic;">No disponible</span>';
+  var dlUrl = driveDownload(doc.url);
+  if (doc.combinado) {
+    return '<div class="doc-name">📄 Documento único (RUT + Cuenta)</div>' +
+      '<div class="doc-actions">' +
+        '<a class="btn-doc combined" href="' + doc.url + '" target="_blank">👁️ Ver</a>' +
+        '<a class="btn-doc download" href="' + dlUrl + '" target="_blank">⬇️ Descargar</a>' +
+        '<button class="btn-doc share" onclick="compartir(\'' + doc.url + '\',\'Documento\')">🔗 Compartir</button>' +
+      '</div>';
+  }
+  return '<div class="doc-actions">' +
+    '<a class="btn-doc download" href="' + doc.url + '" target="_blank">⬇️ ' + etiqueta + '</a>' +
+    '<button class="btn-doc share" onclick="compartir(\'' + doc.url + '\',\'' + etiqueta + '\')">🔗 Compartir</button>' +
+  '</div>';
+}
+
+/* ── BUILD CARD ── */
+function buildCard(p) {
+  var tel = p.tel.replace(/\D/g, "");
+  var wpUrl = "https://wa.me/" + tel;
+
+  var docsHtml = "";
+  if (p.rut && p.rut.combinado) {
+    docsHtml = '<div class="info-row"><div class="info-icon doc">📁</div>' +
+      '<div class="info-content"><div class="info-label">Documentos</div>' + renderDoc(p.rut, "") + '</div></div>';
+  } else {
+    docsHtml =
+      '<div class="info-row"><div class="info-icon doc">📋</div>' +
+        '<div class="info-content"><div class="info-label">RUT</div>' + renderDoc(p.rut, "Descargar RUT") + '</div></div>' +
+      '<div class="info-row"><div class="info-icon doc">🏦</div>' +
+        '<div class="info-content"><div class="info-label">Cuenta Bancaria</div>' + renderDoc(p.cuenta, "Descargar Cuenta") + '</div></div>';
+  }
+
+  return '<div class="pcard" data-search="' + (p.nombre + ' ' + p.correo + ' ' + p.tel).toLowerCase() + '">' +
+    '<div class="pcard-header">' +
+      '<div class="avatar">' + initials(p.nombre) + '</div>' +
+      '<div><div class="pcard-name">' + p.nombre + '</div>' +
+      '<div class="pcard-num"># ' + p.num + '</div></div>' +
+    '</div>' +
+    '<div class="pcard-body">' +
+      '<div class="info-row"><div class="info-icon mail">✉️</div>' +
+        '<div class="info-content"><div class="info-label">Correo</div>' +
+        '<div class="info-value"><a href="mailto:' + p.correo + '" style="color:var(--primary);text-decoration:none;">' + p.correo + '</a></div></div></div>' +
+      '<div class="info-row"><div class="info-icon phone">📞</div>' +
+        '<div class="info-content"><div class="info-label">Teléfono</div>' +
+        '<div class="phone-row"><div class="info-value">' + p.tel + '</div>' +
+        (tel ? '<a class="btn-wp" href="' + wpUrl + '" target="_blank">💬 WhatsApp</a>' : '') +
+        '</div></div></div>' +
+      docsHtml +
+    '</div></div>';
+}
+
+/* ── RENDER GRID ── */
+function renderGrid(tab) {
+  var grid  = document.getElementById("grid-" + tab);
+  var empty = document.getElementById("empty-" + tab);
+  var data  = DATA[tab];
+  if (!data.length) { grid.innerHTML = ""; empty.style.display = "block"; return; }
+  grid.innerHTML = data.map(buildCard).join("");
+  empty.style.display = "none";
+  document.getElementById("count-" + tab).textContent = data.length;
+}
+
+/* ── BADGE TOTAL ── */
+function updateBadge() {
+  var total = DATA.comisarios.length + DATA.omm.length;
+  document.getElementById("totalBadge").textContent = total + " registros";
+}
+
+/* ── FILTRAR ── */
+function filterCards() {
+  var q = document.getElementById("searchInput").value.toLowerCase().trim();
+  var grid  = document.getElementById("grid-" + currentTab);
+  var empty = document.getElementById("empty-" + currentTab);
+  var cards = grid.querySelectorAll(".pcard");
+  var visible = 0;
+  cards.forEach(function(c){
+    var match = !q || c.getAttribute("data-search").indexOf(q) !== -1;
+    c.style.display = match ? "" : "none";
+    if (match) visible++;
+  });
+  empty.style.display = visible === 0 ? "block" : "none";
+}
+
+/* ── SWITCH TAB ── */
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab-btn").forEach(function(b){ b.classList.remove("active"); });
+  document.querySelectorAll(".tab-panel").forEach(function(p){ p.classList.remove("active"); });
+  document.querySelectorAll(".tab-btn")[tab === "comisarios" ? 0 : 1].classList.add("active");
+  document.getElementById("panel-" + tab).classList.add("active");
+  document.getElementById("searchInput").value = "";
+  filterCards();
+}
+
+/* ── INIT ── */
+fetchCSV("comisarios");
+fetchCSV("omm");
+</script>
+</body>
+</html>
