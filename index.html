@@ -12,6 +12,7 @@
   --success:#059669;--warning:#d97706;--danger:#dc2626;
   --wp-green:#25D366;--wp-dark:#128C7E;
   --soft-blue:#eff6ff;--soft-green:#ecfdf5;--soft-orange:#fffbeb;
+  --soft-purple:#f5f3ff;
   --shadow-sm:0 1px 3px rgba(15,23,42,0.08);--shadow:0 4px 16px rgba(15,23,42,0.10);
   --radius:14px;--radius-sm:8px;
 }
@@ -38,7 +39,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   padding:2px 7px;border-radius:999px;}
 .tab-btn.active .tab-count{background:var(--primary);color:#fff;}
 
-.app{max-width:1100px;margin:0 auto;padding:24px 20px 40px;}
+.app{max-width:860px;margin:0 auto;padding:24px 20px 40px;}
 
 .search-wrap{position:relative;margin-bottom:20px;}
 .search-wrap input{width:100%;border:1px solid var(--line);border-radius:999px;
@@ -49,74 +50,87 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);
   color:var(--muted);font-size:16px;pointer-events:none;}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+/* ── LISTA ACORDEÓN ── */
+.lista{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);overflow:hidden;}
 
-.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .2s,transform .2s;}
-.pcard:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
-.pcard-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
-  padding:18px 18px 14px;display:flex;align-items:center;gap:14px;}
-.avatar{width:46px;height:46px;border-radius:999px;background:rgba(255,255,255,0.2);
-  border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:700;color:#fff;flex-shrink:0;}
-.pcard-name{font-size:14px;font-weight:700;color:#fff;line-height:1.3;}
-.pcard-num{font-size:11px;color:rgba(255,255,255,0.7);font-family:'DM Mono',monospace;margin-top:2px;}
+.persona-row{border-bottom:1px solid #f1f5f9;}
+.persona-row:last-child{border-bottom:none;}
 
-.pcard-body{padding:14px 18px;}
-.info-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;}
-.info-row:last-child{border-bottom:none;}
-.info-icon{width:28px;height:28px;border-radius:var(--radius-sm);display:flex;
-  align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px;}
-.info-icon.mail{background:var(--soft-blue);color:var(--primary);}
-.info-icon.phone{background:var(--soft-green);color:var(--success);}
-.info-icon.doc{background:var(--soft-orange);color:var(--warning);}
-.info-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
-  letter-spacing:0.4px;margin-bottom:2px;}
-.info-value{font-size:13px;font-weight:500;color:var(--text);}
-.info-content{flex:1;min-width:0;}
+.persona-header{display:flex;align-items:center;gap:14px;padding:14px 18px;
+  cursor:pointer;transition:background .15s;user-select:none;}
+.persona-header:hover{background:#fafcff;}
+.persona-header.open{background:var(--soft-blue);}
 
-.phone-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.btn-wp{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;
-  font-size:11px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
+.avatar{width:40px;height:40px;border-radius:999px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:700;color:#fff;}
+
+.persona-info{flex:1;min-width:0;}
+.persona-nombre{font-size:14px;font-weight:600;color:var(--text);}
+.persona-meta{font-size:12px;color:var(--muted);margin-top:2px;display:flex;gap:10px;flex-wrap:wrap;}
+.persona-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;
+  background:#f1f5f9;color:var(--muted);padding:2px 7px;border-radius:4px;}
+
+.chevron{font-size:12px;color:var(--muted);transition:transform .25s;flex-shrink:0;}
+.persona-header.open .chevron{transform:rotate(180deg);}
+
+/* ── DETALLE DESPLEGABLE ── */
+.persona-detail{display:none;padding:0 18px 16px 72px;background:#fafcff;
+  border-top:1px solid var(--line);}
+.persona-detail.open{display:block;}
+
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:14px;}
+
+.detail-item{display:flex;flex-direction:column;gap:3px;}
+.detail-label{font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.4px;}
+.detail-value{font-size:13px;font-weight:500;color:var(--text);}
+
+.detail-divider{grid-column:1/-1;border:none;border-top:1px solid var(--line);margin:4px 0;}
+
+/* ── ACCIONES ── */
+.actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+
+.btn-wp{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:999px;
+  font-size:12px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
   background:var(--wp-green);color:#fff;text-decoration:none;transition:background .18s;}
 .btn-wp:hover{background:var(--wp-dark);}
 
-.doc-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
-.btn-doc{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:var(--radius-sm);
-  font-size:11px;font-weight:600;font-family:inherit;border:none;cursor:pointer;
-  text-decoration:none;transition:all .18s;white-space:nowrap;}
-.btn-doc.download{background:var(--soft-orange);color:#9a3412;border:1px solid #fdba74;}
-.btn-doc.download:hover{background:#fde68a;}
+.btn-doc{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;
+  border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:inherit;
+  border:none;cursor:pointer;text-decoration:none;transition:all .18s;white-space:nowrap;}
+.btn-doc.ver{background:var(--soft-orange);color:#9a3412;border:1px solid #fdba74;}
+.btn-doc.ver:hover{background:#fde68a;}
 .btn-doc.share{background:var(--soft-blue);color:var(--primary);border:1px solid #bfdbfe;}
 .btn-doc.share:hover{background:#dbeafe;}
-.btn-doc.combined{background:#f5f3ff;color:#5b21b6;border:1px solid #c4b5fd;}
-.btn-doc.combined:hover{background:#ede9fe;}
-.doc-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.btn-doc.combinado{background:var(--soft-purple);color:#5b21b6;border:1px solid #c4b5fd;}
+.btn-doc.combinado:hover{background:#ede9fe;}
 
+.doc-bloque{margin-bottom:4px;}
+.doc-titulo{font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.3px;margin-bottom:5px;}
+
+/* ── STATES ── */
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
-
-/* Loading */
-.loading{text-align:center;padding:60px 20px;color:var(--muted);}
-.loading-spinner{width:36px;height:36px;border:3px solid var(--line);
-  border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;
-  margin:0 auto 12px;}
+.loading{text-align:center;padding:50px 20px;color:var(--muted);}
+.loading-spinner{width:32px;height:32px;border:3px solid var(--line);
+  border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-.empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;}
-.empty-icon{font-size:40px;margin-bottom:12px;}
-
-/* Error bar */
-.alert-bar{border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;font-weight:600;
-  display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.alert-bar.error{background:var(--soft-red,#fef2f2);border:1px solid #fecaca;color:#991b1b;}
+.empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:14px;}
+.empty-icon{font-size:36px;margin-bottom:10px;}
+.alert-error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;
+  border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:12px;}
 
 @media(max-width:600px){
   .topbar{padding:0 16px;}
   .tabs-wrap{padding:0 12px;}
   .app{padding:16px 12px 40px;}
-  .grid{grid-template-columns:1fr;}
   .topbar-badge{display:none;}
+  .persona-detail{padding-left:18px;}
+  .detail-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -129,7 +143,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="topbar-sep"></div>
     <div>
       <div class="topbar-title">Directorio</div>
-      <div class="topbar-sub">Comisarios & OMM</div>
+      <div class="topbar-sub">Comisarios & OMM · SGI Dimayor</div>
     </div>
   </div>
   <span class="topbar-badge" id="totalBadge">Cargando...</span>
@@ -149,47 +163,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <div class="app">
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Buscar por nombre, teléfono, correo..." oninput="filterCards()">
+    <input type="text" id="searchInput" placeholder="Buscar por nombre, ciudad, teléfono..." oninput="filterRows()">
   </div>
 
   <div class="tab-panel active" id="panel-comisarios">
-    <div class="loading" id="loading-comisarios">
-      <div class="loading-spinner"></div>
-      Cargando comisarios...
-    </div>
-    <div class="grid" id="grid-comisarios"></div>
-    <div class="empty" id="empty-comisarios" style="display:none;">
-      <div class="empty-icon">🔎</div>No se encontraron resultados
-    </div>
+    <div class="loading" id="loading-comisarios"><div class="loading-spinner"></div>Cargando...</div>
+    <div class="lista" id="lista-comisarios" style="display:none;"></div>
+    <div class="empty" id="empty-comisarios" style="display:none;"><div class="empty-icon">🔎</div>Sin resultados</div>
   </div>
 
   <div class="tab-panel" id="panel-omm">
-    <div class="loading" id="loading-omm">
-      <div class="loading-spinner"></div>
-      Cargando OMM...
-    </div>
-    <div class="grid" id="grid-omm"></div>
-    <div class="empty" id="empty-omm" style="display:none;">
-      <div class="empty-icon">🔎</div>No se encontraron resultados
-    </div>
+    <div class="loading" id="loading-omm"><div class="loading-spinner"></div>Cargando...</div>
+    <div class="lista" id="lista-omm" style="display:none;"></div>
+    <div class="empty" id="empty-omm" style="display:none;"><div class="empty-icon">🔎</div>Sin resultados</div>
   </div>
 </div>
 
 <script>
-/* ── URLs CSV del Google Sheet publicado ── */
 var CSV_URLS = {
   comisarios: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO9XNeVu7M-py3vJJler7RURRYuDIrB0qK7ghG_YUX2vUxikwZyeH7OOehVXNVxBa3J2U80iaTCYXf/pub?gid=1212023684&single=true&output=csv",
   omm:        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO9XNeVu7M-py3vJJler7RURRYuDIrB0qK7ghG_YUX2vUxikwZyeH7OOehVXNVxBa3J2U80iaTCYXf/pub?gid=1886661453&single=true&output=csv"
 };
-
-/*
-  COLUMNAS ESPERADAS EN EL SHEET (fila 1 = encabezados):
-  Numero # | Nombre Comisario | Correo | Telefono | RUT | Cuenta Bancaria
-
-  En RUT y Cuenta Bancaria pega el link de Google Drive del PDF.
-  Si van en un solo documento, pon el mismo link en ambas celdas
-  o combina las celdas (el CSV lo detecta automáticamente).
-*/
 
 var DATA = { comisarios: [], omm: [] };
 var currentTab = "comisarios";
@@ -198,177 +192,221 @@ var currentTab = "comisarios";
 function parseCSV(text) {
   var lines = text.trim().split("\n");
   if (lines.length < 2) return [];
-  // limpiar BOM y saltos de carro
-  var headers = lines[0].replace(/^\uFEFF/, "").replace(/\r/g, "").split(",").map(function(h){ return h.trim(); });
+  var headers = lines[0].replace(/^\uFEFF/,"").replace(/\r/g,"").split(",").map(function(h){ return h.trim().replace(/^"|"$/g,""); });
   var rows = [];
   for (var i = 1; i < lines.length; i++) {
-    var cols = splitCSVLine(lines[i].replace(/\r/g, ""));
-    if (cols.every(function(c){ return !c.trim(); })) continue; // fila vacía
+    var cols = splitCSV(lines[i].replace(/\r/g,""));
+    if (cols.every(function(c){ return !c.trim(); })) continue;
     var obj = {};
-    headers.forEach(function(h, idx){ obj[h] = (cols[idx] || "").trim(); });
+    headers.forEach(function(h,idx){ obj[h] = (cols[idx]||"").trim().replace(/^"|"$/g,""); });
     rows.push(obj);
   }
   return rows;
 }
 
-/* ── SPLIT CSV respetando comillas ── */
-function splitCSVLine(line) {
-  var result = [], cur = "", inQ = false;
-  for (var i = 0; i < line.length; i++) {
-    var ch = line[i];
-    if (ch === '"') { inQ = !inQ; }
-    else if (ch === ',' && !inQ) { result.push(cur); cur = ""; }
-    else { cur += ch; }
+function splitCSV(line) {
+  var res=[],cur="",inQ=false;
+  for(var i=0;i<line.length;i++){
+    var ch=line[i];
+    if(ch==='"'){inQ=!inQ;}
+    else if(ch===','&&!inQ){res.push(cur);cur="";}
+    else{cur+=ch;}
   }
-  result.push(cur);
-  return result;
+  res.push(cur);
+  return res;
 }
 
-/* ── MAPEAR FILA → OBJETO PERSONA ── */
-function mapRow(row) {
+/* ── MAPEAR FILA ── */
+function mapRow(row, tab) {
+  var nombreKey = tab === "omm" ? "Nombre OMM" : "Nombre Comisario";
   var rutUrl    = row["RUT"] || "";
   var cuentaUrl = row["Cuenta Bancaria"] || "";
-  var combinado = rutUrl && cuentaUrl && rutUrl === cuentaUrl;
-
+  // Si mismo link → combinado
+  var combinado = !!(rutUrl && cuentaUrl && rutUrl === cuentaUrl);
   return {
     num:    row["Numero #"] || "",
-    nombre: row["Nombre Comisario"] || "",
+    nombre: row[nombreKey] || row["Nombre Comisario"] || row["Nombre OMM"] || "",
     correo: row["Correo"] || "",
-    tel:    row["Telefono"] || "",
-    rut:    rutUrl    ? { url: rutUrl,    nombre: "RUT",             combinado: combinado } : null,
-    cuenta: cuentaUrl && !combinado ? { url: cuentaUrl, nombre: "Cuenta Bancaria" } : null
+    tel:    (row["Telefono"] || "").replace(/\s/g,""),
+    ciudad: row["Ciudad de residencia"] || "",
+    rut:    rutUrl    ? { url: rutUrl,    combinado: combinado } : null,
+    cuenta: (cuentaUrl && !combinado) ? { url: cuentaUrl } : null
   };
-}
-
-/* ── FETCH CSV ── */
-function fetchCSV(tab) {
-  fetch(CSV_URLS[tab])
-    .then(function(r){
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    })
-    .then(function(text){
-      var rows = parseCSV(text).map(mapRow).filter(function(p){ return p.nombre; });
-      DATA[tab] = rows;
-      document.getElementById("loading-" + tab).style.display = "none";
-      renderGrid(tab);
-      updateBadge();
-    })
-    .catch(function(err){
-      document.getElementById("loading-" + tab).innerHTML =
-        '<div class="alert-bar error">⚠️ No se pudo cargar los datos. Verifica que el Sheet esté publicado. (' + err.message + ')</div>';
-    });
 }
 
 /* ── INICIALES ── */
 function initials(nombre) {
-  var p = nombre.trim().split(" ").filter(function(x){ return x; });
+  var p = nombre.trim().split(/\s+/);
+  if (!p[0]) return "?";
   if (p.length === 1) return p[0][0].toUpperCase();
-  return (p[0][0] + p[1][0]).toUpperCase();
+  return (p[0][0]+p[1][0]).toUpperCase();
 }
 
-/* ── DRIVE DOWNLOAD URL ── */
+/* ── FIX DRIVE URL → siempre abrir en viewer ── */
+function driveView(url) {
+  if (!url) return "#";
+  // Extraer ID
+  var m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) return "https://drive.google.com/file/d/" + m[1] + "/view";
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m) return "https://drive.google.com/file/d/" + m[1] + "/view";
+  return url;
+}
+
 function driveDownload(url) {
-  var m = url.match(/\/d\/([^\/\?]+)/);
+  var m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) return "https://drive.google.com/uc?export=download&id=" + m[1];
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
   if (m) return "https://drive.google.com/uc?export=download&id=" + m[1];
   return url;
 }
 
 /* ── COMPARTIR ── */
-function compartir(url, nombre) {
+function compartir(url, e) {
+  e.stopPropagation();
+  var viewUrl = driveView(url);
   if (navigator.share) {
-    navigator.share({ title: nombre, url: url });
+    navigator.share({ url: viewUrl });
   } else {
-    navigator.clipboard.writeText(url).then(function(){
-      alert("✅ Enlace copiado:\n" + url);
+    navigator.clipboard.writeText(viewUrl).then(function(){
+      alert("✅ Enlace copiado al portapapeles");
     });
   }
 }
 
-/* ── RENDER DOC ── */
-function renderDoc(doc, etiqueta) {
-  if (!doc || !doc.url) return '<span style="font-size:12px;color:var(--muted);font-style:italic;">No disponible</span>';
-  var dlUrl = driveDownload(doc.url);
-  if (doc.combinado) {
-    return '<div class="doc-name">📄 Documento único (RUT + Cuenta)</div>' +
-      '<div class="doc-actions">' +
-        '<a class="btn-doc combined" href="' + doc.url + '" target="_blank">👁️ Ver</a>' +
-        '<a class="btn-doc download" href="' + dlUrl + '" target="_blank">⬇️ Descargar</a>' +
-        '<button class="btn-doc share" onclick="compartir(\'' + doc.url + '\',\'Documento\')">🔗 Compartir</button>' +
-      '</div>';
+/* ── RENDER DOCS ── */
+function renderDocs(p) {
+  if (!p.rut && !p.cuenta) return '<span style="font-size:12px;color:var(--muted);font-style:italic;">Sin documentos</span>';
+
+  if (p.rut && p.rut.combinado) {
+    return '<div class="doc-bloque">' +
+      '<div class="doc-titulo">📁 RUT + Cuenta Bancaria</div>' +
+      '<div class="actions-row">' +
+        '<a class="btn-doc combinado" href="' + driveView(p.rut.url) + '" target="_blank">👁️ Ver documento</a>' +
+        '<button class="btn-doc share" onclick="compartir(\'' + p.rut.url + '\',event)">🔗 Compartir</button>' +
+      '</div></div>';
   }
-  return '<div class="doc-actions">' +
-    '<a class="btn-doc download" href="' + doc.url + '" target="_blank">⬇️ ' + etiqueta + '</a>' +
-    '<button class="btn-doc share" onclick="compartir(\'' + doc.url + '\',\'' + etiqueta + '\')">🔗 Compartir</button>' +
+
+  var html = "";
+  if (p.rut) {
+    html += '<div class="doc-bloque">' +
+      '<div class="doc-titulo">📋 RUT</div>' +
+      '<div class="actions-row">' +
+        '<a class="btn-doc ver" href="' + driveView(p.rut.url) + '" target="_blank">👁️ Ver</a>' +
+        '<button class="btn-doc share" onclick="compartir(\'' + p.rut.url + '\',event)">🔗 Compartir</button>' +
+      '</div></div>';
+  }
+  if (p.cuenta) {
+    html += '<div class="doc-bloque" style="margin-top:8px;">' +
+      '<div class="doc-titulo">🏦 Cuenta Bancaria</div>' +
+      '<div class="actions-row">' +
+        '<a class="btn-doc ver" href="' + driveView(p.cuenta.url) + '" target="_blank">👁️ Ver</a>' +
+        '<button class="btn-doc share" onclick="compartir(\'' + p.cuenta.url + '\',event)">🔗 Compartir</button>' +
+      '</div></div>';
+  }
+  return html;
+}
+
+/* ── BUILD ROW ── */
+function buildRow(p, idx, tab) {
+  var tel = p.tel.replace(/\D/g,"");
+  var wpUrl = tel ? "https://wa.me/" + tel : "";
+  var searchStr = (p.nombre+" "+p.correo+" "+p.tel+" "+p.ciudad).toLowerCase();
+  var id = tab + "-" + idx;
+
+  return '<div class="persona-row" data-search="' + searchStr + '" id="row-' + id + '">' +
+    '<div class="persona-header" onclick="toggleRow(\'' + id + '\')">' +
+      '<div class="avatar">' + initials(p.nombre) + '</div>' +
+      '<div class="persona-info">' +
+        '<div class="persona-nombre">' + p.nombre + '</div>' +
+        '<div class="persona-meta">' +
+          (p.num ? '<span class="persona-num">#' + p.num + '</span>' : '') +
+          (p.ciudad ? '<span>📍 ' + p.ciudad + '</span>' : '') +
+          (p.tel ? '<span>📞 ' + p.tel + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<span class="chevron">▼</span>' +
+    '</div>' +
+    '<div class="persona-detail" id="detail-' + id + '">' +
+      '<div class="detail-grid">' +
+        (p.correo ? '<div class="detail-item"><div class="detail-label">Correo</div>' +
+          '<div class="detail-value"><a href="mailto:' + p.correo + '" style="color:var(--primary);text-decoration:none;">' + p.correo + '</a></div></div>' : '') +
+        (p.ciudad ? '<div class="detail-item"><div class="detail-label">Ciudad de residencia</div>' +
+          '<div class="detail-value">📍 ' + p.ciudad + '</div></div>' : '') +
+        (p.tel ?
+          '<div class="detail-item" style="grid-column:1/-1;"><div class="detail-label">Teléfono</div>' +
+          '<div class="actions-row" style="margin-top:4px;">' +
+            '<span class="detail-value">' + p.tel + '</span>' +
+            (wpUrl ? '<a class="btn-wp" href="' + wpUrl + '" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>' : '') +
+          '</div></div>' : '') +
+        '<hr class="detail-divider">' +
+        '<div style="grid-column:1/-1;">' +
+          '<div class="detail-label" style="margin-bottom:8px;">Documentos</div>' +
+          renderDocs(p) +
+        '</div>' +
+      '</div>' +
+    '</div>' +
   '</div>';
 }
 
-/* ── BUILD CARD ── */
-function buildCard(p) {
-  var tel = p.tel.replace(/\D/g, "");
-  var wpUrl = "https://wa.me/" + tel;
-
-  var docsHtml = "";
-  if (p.rut && p.rut.combinado) {
-    docsHtml = '<div class="info-row"><div class="info-icon doc">📁</div>' +
-      '<div class="info-content"><div class="info-label">Documentos</div>' + renderDoc(p.rut, "") + '</div></div>';
-  } else {
-    docsHtml =
-      '<div class="info-row"><div class="info-icon doc">📋</div>' +
-        '<div class="info-content"><div class="info-label">RUT</div>' + renderDoc(p.rut, "Descargar RUT") + '</div></div>' +
-      '<div class="info-row"><div class="info-icon doc">🏦</div>' +
-        '<div class="info-content"><div class="info-label">Cuenta Bancaria</div>' + renderDoc(p.cuenta, "Descargar Cuenta") + '</div></div>';
-  }
-
-  return '<div class="pcard" data-search="' + (p.nombre + ' ' + p.correo + ' ' + p.tel).toLowerCase() + '">' +
-    '<div class="pcard-header">' +
-      '<div class="avatar">' + initials(p.nombre) + '</div>' +
-      '<div><div class="pcard-name">' + p.nombre + '</div>' +
-      '<div class="pcard-num"># ' + p.num + '</div></div>' +
-    '</div>' +
-    '<div class="pcard-body">' +
-      '<div class="info-row"><div class="info-icon mail">✉️</div>' +
-        '<div class="info-content"><div class="info-label">Correo</div>' +
-        '<div class="info-value"><a href="mailto:' + p.correo + '" style="color:var(--primary);text-decoration:none;">' + p.correo + '</a></div></div></div>' +
-      '<div class="info-row"><div class="info-icon phone">📞</div>' +
-        '<div class="info-content"><div class="info-label">Teléfono</div>' +
-        '<div class="phone-row"><div class="info-value">' + p.tel + '</div>' +
-        (tel ? '<a class="btn-wp" href="' + wpUrl + '" target="_blank">💬 WhatsApp</a>' : '') +
-        '</div></div></div>' +
-      docsHtml +
-    '</div></div>';
+/* ── TOGGLE ACORDEÓN ── */
+function toggleRow(id) {
+  var header = document.querySelector("#row-" + id + " .persona-header");
+  var detail = document.getElementById("detail-" + id);
+  var isOpen = header.classList.contains("open");
+  header.classList.toggle("open", !isOpen);
+  detail.classList.toggle("open", !isOpen);
 }
 
-/* ── RENDER GRID ── */
-function renderGrid(tab) {
-  var grid  = document.getElementById("grid-" + tab);
-  var empty = document.getElementById("empty-" + tab);
+/* ── RENDER LISTA ── */
+function renderLista(tab) {
   var data  = DATA[tab];
-  if (!data.length) { grid.innerHTML = ""; empty.style.display = "block"; return; }
-  grid.innerHTML = data.map(buildCard).join("");
+  var lista = document.getElementById("lista-" + tab);
+  var empty = document.getElementById("empty-" + tab);
+  document.getElementById("loading-" + tab).style.display = "none";
+
+  if (!data.length) { lista.style.display="none"; empty.style.display="block"; return; }
+
+  lista.innerHTML = data.map(function(p,i){ return buildRow(p,i,tab); }).join("");
+  lista.style.display = "block";
   empty.style.display = "none";
   document.getElementById("count-" + tab).textContent = data.length;
 }
 
-/* ── BADGE TOTAL ── */
+/* ── BADGE ── */
 function updateBadge() {
-  var total = DATA.comisarios.length + DATA.omm.length;
-  document.getElementById("totalBadge").textContent = total + " registros";
+  var t = DATA.comisarios.length + DATA.omm.length;
+  document.getElementById("totalBadge").textContent = t + " registros";
 }
 
 /* ── FILTRAR ── */
-function filterCards() {
+function filterRows() {
   var q = document.getElementById("searchInput").value.toLowerCase().trim();
-  var grid  = document.getElementById("grid-" + currentTab);
+  var lista = document.getElementById("lista-" + currentTab);
   var empty = document.getElementById("empty-" + currentTab);
-  var cards = grid.querySelectorAll(".pcard");
-  var visible = 0;
-  cards.forEach(function(c){
-    var match = !q || c.getAttribute("data-search").indexOf(q) !== -1;
-    c.style.display = match ? "" : "none";
-    if (match) visible++;
+  var rows  = lista.querySelectorAll(".persona-row");
+  var vis   = 0;
+  rows.forEach(function(r){
+    var match = !q || r.getAttribute("data-search").indexOf(q) !== -1;
+    r.style.display = match ? "" : "none";
+    if (match) vis++;
   });
-  empty.style.display = visible === 0 ? "block" : "none";
+  empty.style.display = vis === 0 ? "block" : "none";
+}
+
+/* ── FETCH CSV ── */
+function fetchCSV(tab) {
+  fetch(CSV_URLS[tab])
+    .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); })
+    .then(function(text){
+      DATA[tab] = parseCSV(text).map(function(r){ return mapRow(r,tab); }).filter(function(p){ return p.nombre; });
+      renderLista(tab);
+      updateBadge();
+    })
+    .catch(function(err){
+      document.getElementById("loading-" + tab).innerHTML =
+        '<div class="alert-error">⚠️ No se pudo cargar los datos. Verifica que el Sheet esté publicado. (' + err.message + ')</div>';
+    });
 }
 
 /* ── SWITCH TAB ── */
@@ -376,13 +414,12 @@ function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll(".tab-btn").forEach(function(b){ b.classList.remove("active"); });
   document.querySelectorAll(".tab-panel").forEach(function(p){ p.classList.remove("active"); });
-  document.querySelectorAll(".tab-btn")[tab === "comisarios" ? 0 : 1].classList.add("active");
-  document.getElementById("panel-" + tab).classList.add("active");
+  document.querySelectorAll(".tab-btn")[tab==="comisarios"?0:1].classList.add("active");
+  document.getElementById("panel-"+tab).classList.add("active");
   document.getElementById("searchInput").value = "";
-  filterCards();
+  filterRows();
 }
 
-/* ── INIT ── */
 fetchCSV("comisarios");
 fetchCSV("omm");
 </script>
