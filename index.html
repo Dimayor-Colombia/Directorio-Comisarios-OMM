@@ -103,10 +103,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .contact-value a:hover{text-decoration:underline;}
 
 /* Botón WA */
-.btn-wp{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:999px;
+.btn-wp,.btn-tg{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:999px;
   font-size:12px;font-weight:700;font-family:inherit;border:none;cursor:pointer;
-  background:var(--wp-green);color:#fff;text-decoration:none;transition:background .18s;margin-top:6px;}
+  text-decoration:none;transition:background .18s;margin-top:6px;}
+.btn-wp{background:var(--wp-green);color:#fff;}
 .btn-wp:hover{background:var(--wp-dark);}
+.btn-tg{background:#2AABEE;color:#fff;}
+.btn-tg:hover{background:#1a8fca;}
 
 /* Documentos */
 .doc-bloque{margin-bottom:10px;}
@@ -336,6 +339,7 @@ function buildRow(p, idx, tab) {
               '<div class="contact-label">Teléfono</div>' +
               '<div class="contact-value">'+p.tel+'</div>' +
               (wpUrl ? '<a class="btn-wp" href="'+wpUrl+'" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>' : '') +
+              (tel ? '<a class="btn-tg" href="https://t.me/+'+tel+'" target="_blank" onclick="event.stopPropagation()">✈️ Telegram</a>' : '') +
             '</div>' : '') +
         '</div>' +
 
